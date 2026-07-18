@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "futrob-web",
+  "compatibility_date": "2026-07-17",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "@tanstack/react-start/server-entry",
+  "vars": {
+    "APP_BASE_URL": "https://futrob.app",
+  },
+  "d1_databases": [
+    {
+      "binding": "APP_DB",
+      "database_name": "futrob-app",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+    },
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA_BUCKET",
+      "bucket_name": "futrob-media",
+    },
+  ],
+  "queues": {
+    "producers": [{ "binding": "JOB_QUEUE", "queue": "futrob-job-queue" }],
+    "consumers": [{ "queue": "futrob-job-queue", "max_batch_size": 10 }],
+  },
+}

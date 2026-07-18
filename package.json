@@ -1,0 +1,35 @@
+{
+  "name": "futrob",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Futrob — EA FC Clubs competition platform on Cloudflare Workers",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "prepare": "vp config --no-agent",
+    "dev": "vp dev apps/web",
+    "build": "vp build apps/web",
+    "preview": "vp preview apps/web",
+    "format": "vp fmt",
+    "lint": "vp lint",
+    "check": "vp check",
+    "test": "vp test",
+    "test:coverage": "vp test --coverage",
+    "typecheck": "vp run -r typecheck",
+    "cli": "npm run cli -w @futrob/cli --"
+  },
+  "devDependencies": {
+    "typescript": "6.0.2",
+    "vite-plus": "0.2.4"
+  },
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.2.4"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "npm@11.16.0"
+}

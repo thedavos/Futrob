@@ -1,0 +1,35 @@
+---
+description: Sentry boundaries, correlation, data minimization, and redaction for Futrob
+globs: "{apps/web,packages}/**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Sentry
+
+Sentry observes execution boundaries; it is never imported by domain or application code.
+
+## Instrumentation
+
+- Initialize client and server SDKs in framework entrypoints/composition using validated environment/bindings.
+- Instrument route handlers, server functions, queue/cron stages, EA provider calls, and email dispatch with operation-specific spans.
+- Propagate `trace_id`, `request_id`, job ID, event type/version, and a safe opaque tenant correlation value.
+- Expected domain failures are controlled outcomes or low-severity breadcrumbs, not noisy exceptions.
+- Disable event delivery when no DSN is configured; local development must still work.
+
+## Allowlist and redaction
+
+Only send explicitly allowlisted attributes. Before every event, breadcrumb, replay, and trace, remove:
+
+- raw EA provider payloads and unsanitized match bodies;
+- cookies, authorization headers, session IDs, tokens, provider secrets, and idempotency credentials;
+- email addresses, real names, phone numbers, and platform identifiers not approved for telemetry;
+- database dumps, SQL parameters, and private object keys;
+- selection/dispute free-text that can identify participants beyond approved correlation.
+
+Apply server-side `beforeSend`/`beforeBreadcrumb` redaction. Keep request-body capture and session replay off for authentication, EA sync, and notification routes unless a reviewed scrubber proves safety.
+
+## Tags and messages
+
+- Prefer bounded tags such as operation, route template, job stage, result state, provider health, and error code.
+- Do not tag raw actor, organization, competition, encounter, or team IDs.
+- User-visible errors use localized safe codes and `requestId`.

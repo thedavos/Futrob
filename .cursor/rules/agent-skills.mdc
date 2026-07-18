@@ -1,0 +1,39 @@
+---
+description: Preferred local and Cursor skills for Futrob work phases
+alwaysApply: true
+---
+
+# Preferred agent skills
+
+Always start domain/module work with the repo skill:
+
+- `.cursor/skills/futrob-hexagonal-module/SKILL.md`
+
+## Approved phase skills
+
+Read and follow these when the task matches. Do not invent a parallel stack.
+
+| Skill | When |
+|---|---|
+| **shadcn** (Vercel plugin / CLI) | Add or change primitives in `packages/ui`; compose in web presentation. Base UI only — see `ui-shadcn.mdc`. |
+| **better-ui** | Visual pass on screens: hierarchy, density, empty/error states, operator vs spectator UI. |
+| **gsap** (gsap-skills plugin) | Motion for landing, bracket zoom/pan presence, intentional transitions. Never in domain/application. Respect `prefers-reduced-motion`. |
+| **layers-domain** | Clarify or rename domain concepts before coding (Encounter, OfficialMatch, Team, selection). |
+| **layers-interaction-flow** | Captain selection, reschedule, sync → review → officialize flows before UI/API shape. |
+| **web-perf** | SSR/Workers budgets, dense lists, bracket, public portal load. |
+| **seo** | Public landing and competition portal metadata, crawlable published content only. |
+
+## Platform skills (also expected)
+
+- Cloudflare / wrangler / workers-best-practices for Workers, D1, R2, Queues, Cron
+- Sentry at execution boundaries
+- pstack typescript-best-practices for contracts and typed boundaries
+
+## Local tooling
+
+- `apps/cli` is the domain/use-case playground (fakes in memory). See `/apps/cli/README.md`.
+- Product deployable remains `apps/web` only.
+
+## Do not use for implementation here
+
+Supabase, Railway deploy, Clerk, Convex, Nuxt, Astro, UnoCSS, Kapso/Chat SDK unless product direction explicitly reopens them.

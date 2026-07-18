@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build and generated output
+.output/
+dist/
+apps/*/dist/
+packages/*/dist/
+.wrangler/
+.dev.vars
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+apps/web/src/paraglide/
+.tanstack/
+.vite-hooks/
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Cloudflare
+.mf/
+worker-configuration.d.ts
+
+# Editor and operating system
+.DS_Store
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*

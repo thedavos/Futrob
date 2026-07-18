@@ -1,0 +1,47 @@
+---
+description: Futrob visual language for landing, operations, Match Center, and public portal
+globs: "{apps/web,packages/ui}/**/*.{ts,tsx,css}"
+alwaysApply: false
+---
+
+# Futrob design system
+
+The canonical specification is `product/design-system-spec.md`. Futrob is a competition control room for EA FC Clubs: dense for operators, clear for spectators, anchored on EA-sourced matches and auditable official selection.
+
+## Visual principles
+
+1. Prefer continuous rows and tables for encounters, EA candidates, rosters, and rankings. Reserve cards for autonomous entities or framed tools.
+2. Keep scores centered, stable, high-contrast, and tabular.
+3. Express every status with text plus icon or shape; color is supplementary.
+4. Visually separate EA candidates from approved official results.
+5. Use compact desktop density and at least 44 px touch targets on mobile.
+6. Avoid nested cards, uniform dashboard grids, generic purple gradients, pervasive glass effects, and heavy shadows.
+7. Use one component language: shadcn on Base UI for behavior, Futrob tokens for identity.
+
+## Identity and tokens
+
+- Display: Barlow Condensed 600/700 for hero, competition headings, and large scores.
+- UI: Manrope 400–700.
+- Data: IBM Plex Mono 500/600 for scores, time, and short IDs.
+- Semantic CSS variables are the source of truth for component color.
+- Green means primary action, approved state, or winner path — not ambient decoration.
+- Dark is the principal sports presentation; light remains fully supported. Target WCAG 2.2 AA.
+- Respect `prefers-reduced-motion`.
+
+## Shells
+
+- Landing: brand-first hero, one promise, one support sentence, CTA group, dominant product visual. No card grid in the first viewport.
+- Authenticated desktop: contextual sidebar, app header, page header, filters, fluid content.
+- Public competition pages: competition header and sticky tabs without an admin sidebar.
+
+## Match Center
+
+Encounter rows show round/date, both teams, centered score/status, and metadata/action. Detail sections cover Overview, Official matches, EA candidates, Selection (with preview), Schedule history, Stats, and permission-gated History/Admin.
+
+Label aggregate series scores explicitly so goals are never confused with match wins.
+
+## Rankings and bracket
+
+- Official table and performance ranking must not share ambiguous titles.
+- Bracket views consume a semantic graph and always provide an equivalent accessible list.
+- Byes never show fictitious scores.

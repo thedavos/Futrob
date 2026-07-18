@@ -1,0 +1,24 @@
+---
+description: Spanish and English UI localization, dates, and time zones
+globs: "{apps/web,packages}/**/*.{ts,tsx,json}"
+alwaysApply: false
+---
+
+# Internationalization
+
+Futrob supports Spanish (`es`) and English (`en`). Spanish is the default product language. Paraglide source messages live in `messages/`, configuration in `project.inlang/`, and generated output is never edited manually.
+
+## Rules
+
+- Every user-facing string, accessible label, validation message, notification template, empty state, and safe error is a message key owned by the relevant feature.
+- Add both `es` and `en` values in the same change. Do not ship raw keys or mixed-language fallbacks.
+- Domain and application layers return typed codes and parameters; they never import Paraglide or presentation copy.
+- Provider errors (including EA) are mapped to stable safe codes before localization. Do not display provider messages directly.
+- Preserve Futrob distinctions when translating: Encounter, OfficialMatch, EaMatch, Series, candidate, and approved official result remain separate concepts.
+- Dynamic values use named parameters and locale-aware pluralization.
+- Store timestamps in UTC and IANA time-zone identifiers. Render in the user's zone and show the competition zone when scheduling context matters.
+- UI locale never selects EA payload interpretation rules.
+- URLs do not gain locale prefixes unless a documented routing decision introduces them.
+- Tests cover missing messages, interpolation, plural cases, date/time behavior, and both locales for critical journeys.
+
+Use BCP 47 locale values and `Intl` formatting. Do not persist already-formatted dates, times, numbers, or translated status labels in domain records.

@@ -1,0 +1,37 @@
+---
+description: Better Auth ownership, TanStack Start boundary, and Futrob authorization on D1
+globs: "{apps/web,packages/identity-access}/**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Better Auth
+
+Better Auth is Futrob's only authority for credentials and sessions. It is not the business authorization model. Persistence target is **Cloudflare D1**.
+
+## Ownership
+
+- Better Auth owns provider users, credentials, accounts, verification records, cookies, and sessions.
+- Futrob owns actors, identity mappings, organizations, memberships, roles, permissions, and audit records.
+- `identity_subjects(provider, subject, actor_id)` maps a provider subject to a stable domain actor. Provisioning must be idempotent.
+- Do not reference Better Auth tables from business aggregates.
+- Do not use Better Auth's organization plugin as the source of Futrob organizations.
+
+## Application boundary
+
+- `SessionIdentityPort` is the only interface application code uses to resolve a session.
+- Configure the Better Auth adapter and its TanStack Start handler inside server-only adapter/composition code.
+- Resolve and validate session cookies on the server. Client UI may display session state but never authorizes an operation.
+- Protected use cases receive a trusted `ActorId`, verify membership and permission, then execute with organization-scoped D1 access.
+
+## Database and security
+
+- Do not combine Better Auth with a second user/session authority.
+- Never authorize using user-editable profile metadata or stale client claims.
+- Session identifiers, cookies, reset tokens, verification tokens, and credentials must not appear in logs, analytics, Sentry, URLs, or browser-readable environment variables.
+- Rate-limit and audit sensitive flows such as sign-in, sign-up, password reset, invitations, and account linking.
+
+## Configuration
+
+Validate secrets via Wrangler/`env` at composition time. Expected names are documented in `.env.example`; never add real secrets to tracked files. Use separate values for local, preview, and production.
+
+When changing Better Auth schema, generate provider SQL with the installed CLI (`--help`), review it, add a Wrangler D1 migration, and verify from a clean local database.

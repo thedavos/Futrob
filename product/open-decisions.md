@@ -1,0 +1,76 @@
+# Futrob MVP — Decisiones abiertas y defaults
+
+**Regla de uso:** ninguna decisión de este documento bloquea el setup fundacional. Hasta que producto la cambie explícitamente, se aplica el default recomendado y se versiona cuando afecte resultados históricos.
+
+**Precedencia:** solicitud vigente del usuario > [prd.md](/product/prd.md) > defaults de este documento.
+
+## 1. Decisiones resueltas por el PRD vigente
+
+| ID      | Tema                          | Resolución vigente                                                                                                                                                                                                                                                                                               |
+| ------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| DEC-001 | Fuente primaria de resultados | Datos de EA Clubs (`proclubs.ea.com/api`) + selección/confirmación humana. OCR/capturas no son fuente primaria del MVP.                                                                                                                                                                                          |
+| DEC-002 | Modalidad piloto              | FC Clubs. Otras modalidades son extensión.                                                                                                                                                                                                                                                                       |
+| DEC-003 | Notificaciones MVP            | Web + correo. WhatsApp y push son ampliaciones.                                                                                                                                                                                                                                                                  |
+| DEC-004 | Unidad competitiva            | Team (club/equipo) en fixtures, tabla y bracket.                                                                                                                                                                                                                                                                 |
+| DEC-005 | Jerarquía                     | `Encounter → OfficialMatch` con `Series` como regla de resolución; `EaMatch` es dato externo.                                                                                                                                                                                                                    |
+| DEC-006 | Stack de plataforma           | TanStack Start, Better Auth, Vite+, Sentry, shadcn/Base UI sobre **Cloudflare Workers**, con **D1**, **R2**, **Queues** y **Cron Triggers**. Hexagonal por feature module en `apps/web/src/modules` con DI en `src/di`. Bounded context de proveedores: **game-data** (EA como adapter). Sin Supabase ni Vercel. |
+
+## 2. Decisiones de dominio con default
+
+| ID      | Decisión pendiente                    | Default recomendado para MVP                                                                                           | Motivo                                   |
+| ------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| DEC-010 | Partidos oficiales por enfrentamiento | 1 o 2; valores mayores quedan fuera del MVP.                                                                           | Coincide con PRD §7.                     |
+| DEC-011 | Modo de resolución por defecto        | Configurable por competición; default `independent` en liga y `aggregate` en eliminación a ida/vuelta de dos partidos. | Cobertura de ambos modos sin ambigüedad. |
+| DEC-012 | Gol de visitante                      | Desactivado.                                                                                                           | No inferir reglas históricas.            |
+| DEC-013 | Puntos de liga                        | Victoria 3, empate 1, derrota 0.                                                                                       | Convención configurable.                 |
+| DEC-014 | Desempates de liga                    | PTS → DG → GF → enfrentamiento directo → menos sanciones → sorteo manual auditado.                                     | Orden determinístico versionado.         |
+| DEC-015 | Byes                                  | Avance sin marcador ni estadísticas.                                                                                   | Evita datos ficticios.                   |
+| DEC-016 | Cambios a resultado aprobado          | Nueva versión + reproyección + justificación; no overwrite silencioso.                                                 | Auditoría e idempotencia.                |
+| DEC-017 | Empate en eliminación                 | Aplicar desempate configurado; si falta dato, revisión del organizador. Nunca seed automático.                         | Evita avance incorrecto.                 |
+
+## 3. Selección oficial y confirmación
+
+| ID      | Decisión pendiente                  | Default recomendado                                                                         | Motivo                                                      |
+| ------- | ----------------------------------- | ------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| DEC-020 | Quién inicia la selección           | Cualquiera de los dos capitanes (o subcapitán autorizado).                                  | Evita deadlock si el “local” no actúa.                      |
+| DEC-021 | Tiempo máximo de confirmación rival | 24 horas desde la propuesta, o hasta el inicio programado si ocurre antes.                  | Balance operación/urgencia.                                 |
+| DEC-022 | Auto-aprobación                     | Si ambos capitanes confirman la misma selección y no hay flags de integridad, auto-aprobar. | Reduce carga del organizador.                               |
+| DEC-023 | Ventana temporal de candidatos      | ±6 horas alrededor de cada OfficialMatch programado, configurable por competición (1–24 h). | Cubre jornadas densas sin mezclar días enteros por defecto. |
+| DEC-024 | Candidatos previos tras reprogramar | Se conservan; se recalcula elegibilidad/ventana con el nuevo horario.                       | No perder evidencia de sync.                                |
+| DEC-025 | Partidos no seleccionados           | Permanecen para analíticas privadas/contexto; no afectan competición.                       | Separación oficial vs contextual.                           |
+
+## 4. Reprogramación
+
+| ID      | Decisión pendiente               | Default recomendado                                                                      | Motivo                     |
+| ------- | -------------------------------- | ---------------------------------------------------------------------------------------- | -------------------------- |
+| DEC-030 | Máximo de reprogramaciones       | 2 por Team por Encounter, configurable.                                                  | Evita abuso sin rigidizar. |
+| DEC-031 | Quién puede iniciar              | Capitán, subcapitán con permiso, organizador/staff.                                      | Alineado al PRD.           |
+| DEC-032 | Expiración de propuesta          | 12 horas o según reglamento de competición.                                              | Fuerza resolución.         |
+| DEC-033 | Escalada                         | Si expira sin acuerdo, estado `escalated` y el organizador puede fijar fecha o walkover. | Cierre operativo.          |
+| DEC-034 | Fecha límite de reprogramaciones | Configurable; tras ella solo organizador/staff.                                          | Control de calendario.     |
+
+## 5. Datos EA y estadísticas
+
+| ID      | Decisión pendiente                | Default recomendado                                                                                                                                          | Motivo                               |
+| ------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------ |
+| DEC-040 | Estadísticas confiables iniciales | Marcador, duración, goles, asistencias, rating, MVP, tiros, pases y entradas cuando el payload las traiga; campos ausentes = null tipado, no cero inventado. | Evita falsos ceros.                  |
+| DEC-041 | Ranking de rendimiento de equipos | Fórmula v1 versionada 0–100 basada en resultados, DG, forma reciente y eficiencia ofensiva/defensiva disponibles.                                            | Transparente y estable en temporada. |
+| DEC-042 | Premios individuales              | Rankings de goles, asistencias, rating, MVP y portero; mínimos de elegibilidad configurables.                                                                | Cobertura esencial.                  |
+| DEC-043 | Elegibilidad default              | Mínimo 3 partidos o 60 % de minutos del Team en la etapa, lo que el organizador configure.                                                                   | Reduce rankings engañosos.           |
+| DEC-044 | Analíticas públicas vs premium    | Públicos: tabla, resultados, rankings esenciales. Premium: percentiles, evolución, comparativas y analítica de organizador.                                  | Soporta FR-17.                       |
+
+## 6. Comercial e integraciones
+
+| ID      | Decisión pendiente     | Default recomendado                                                                          | Motivo             |
+| ------- | ---------------------- | -------------------------------------------------------------------------------------------- | ------------------ |
+| DEC-050 | Planes comerciales MVP | Un plan free operativo + flag de premium analytics; sin pagos automatizados en MVP.          | WONT de pagos.     |
+| DEC-051 | Tratamiento del API EA | Proveedor no garantizado: caché, retries, circuit breaker, storage propio y revisión manual. | Riesgo #1 del PRD. |
+| DEC-052 | Idiomas UI             | `es` default, `en` soportado. Independiente de datos EA.                                     | Producto bilingüe. |
+
+## 7. Decisiones que no deben reintroducirse sin ADR + cambio de producto
+
+- OCR como camino feliz de oficialización.
+- Evidence Inbox como superficie primaria de resultados.
+- Match/Series/Game del modelo anterior sin mapear a Encounter/OfficialMatch/EaMatch.
+- Kapso/WhatsApp/Telegram como requisitos Must del MVP.
+- Entrants 1v1/pair/squad como supuesto universal del dominio Clubs.

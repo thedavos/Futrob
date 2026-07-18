@@ -1,0 +1,115 @@
+# Futrob — Documento maestro de producto y PRD del MVP
+
+**Estado:** canónico  
+**Fecha:** 2026-07-17  
+**Precedencia:** la solicitud vigente del usuario prevalece sobre este documento cuando exista conflicto.
+
+Futrob es una plataforma especializada en crear, operar y seguir ligas, copas y torneos de EA SPORTS FC. Su primer enfoque es **FC Clubs**, utilizando los datos de `proclubs.ea.com/api` para identificar partidos, registrar resultados oficiales, almacenar estadísticas y generar rankings y analíticas.
+
+## 1. Resumen ejecutivo
+
+Futrob resuelve la operación completa de una competición de EA SPORTS FC: creación, inscripción, gestión de equipos y plantillas, calendarización, reprogramaciones, selección de partidos oficiales, confirmación de resultados, estadísticas, rankings, sanciones y publicación de información para espectadores.
+
+La plataforma debe distinguir claramente entre:
+
+| Concepto                              | Definición                                                                                                             |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **Enfrentamiento** (`Encounter`)      | Cita competitiva programada entre dos participantes.                                                                   |
+| **Partido oficial** (`OfficialMatch`) | Uno de los partidos que cuenta para el enfrentamiento.                                                                 |
+| **Partido EA** (`EaMatch`)            | Registro obtenido desde el API de EA, sea oficial o amistoso.                                                          |
+| **Serie** (`Series`)                  | Conjunto de uno o más partidos oficiales cuyo resultado puede resolverse individualmente o mediante marcador agregado. |
+
+Una jornada puede programar un enfrentamiento con uno o dos partidos oficiales. Los mismos rivales podrían jugar cinco veces durante ese día; Futrob mostrará los cinco partidos obtenidos desde EA y permitirá que los capitanes seleccionen cuáles cuentan para la competición.
+
+## 2. Visión
+
+> Convertir a Futrob en el sistema operativo de las competiciones de EA SPORTS FC: una plataforma donde organizadores, clubes, capitanes, jugadores y espectadores puedan participar en torneos confiables, automatizados y basados en datos.
+
+### Propuesta de valor
+
+- Especialización en EA SPORTS FC.
+- Gestión completa de ligas, copas y torneos.
+- Resultados y estadísticas obtenidos desde EA Clubs.
+- Selección auditable de partidos oficiales.
+- Soporte para enfrentamientos de uno o varios partidos.
+- Reprogramación controlada de encuentros y partidos.
+- Rankings de jugadores y equipos.
+- Analíticas premium para equipos, jugadores y organizadores.
+- Portal público atractivo para seguidores y espectadores.
+
+## 3. Usuarios y roles
+
+Los roles son contextuales. Un usuario puede ser organizador en una organización, capitán en una competición y espectador en otra.
+
+| Rol                      | Responsabilidad principal                                                                               |
+| ------------------------ | ------------------------------------------------------------------------------------------------------- |
+| **Superusuario**         | Administra plataforma, ediciones, suscripciones, integraciones, moderación y auditoría.                 |
+| **Organizador**          | Crea y opera competiciones, aprueba inscripciones, reprograma, revisa disputas y configura publicación. |
+| **Staff de competición** | Permisos granulares: fixtures, resultados, disputas, inscripciones, anuncios, sanciones.                |
+| **Capitán**              | Representa al equipo: club EA, plantilla, reprogramaciones, selección oficial y confirmación.           |
+| **Subcapitán**           | Permisos delegados del capitán.                                                                         |
+| **Jugador**              | Perfil, plantillas, fixtures, disponibilidad y analíticas individuales cuando corresponda.              |
+| **Espectador**           | Solo información pública; sin disputas, evidencias privadas ni datos administrativos.                   |
+
+## 4. Edición y modalidad
+
+Futrob modela la edición del juego como entidad configurable (`FC 25`, `FC 26`, `FC 27`, futuras). El MVP se enfoca en **FC Clubs**. La arquitectura debe permitir incorporar después FC Temporadas, FC Amistosos y torneos individuales o por parejas.
+
+Cada competición queda vinculada a una edición y modalidad desde su creación. Esos valores no deben cambiar después de iniciar la competición.
+
+## 5. Formatos
+
+### MVP
+
+- Liga todos contra todos.
+- Eliminación directa.
+- Fase de grupos y eliminación.
+- Liga con playoffs.
+
+### Posteriores
+
+- Doble eliminación, sistema suizo, divisiones con ascenso/descenso, Apertura/Clausura, series al mejor de tres o cinco.
+
+## 6–11. Modelo competitivo, EA, selección, reprogramación y resultados
+
+Ver detalle operativo en [mvp-requirements.md](/product/mvp-requirements.md) y vocabulario en [domain-glossary.md](/product/domain-glossary.md). Resumen:
+
+1. Organización → Competición → Etapa → Jornada/Ronda → Enfrentamiento → Partido(s) oficial(es).
+2. Cada competición define 1 o 2 partidos oficiales por enfrentamiento y el modo de resolución (independientes o marcador agregado).
+3. Futrob sincroniza partidos desde EA, los guarda como candidatos y los capitanes seleccionan cuáles cuentan.
+4. Reprogramación puede aplicar al enfrentamiento completo o a un partido oficial concreto.
+5. Solo partidos oficiales aprobados actualizan tabla, bracket, rankings, estadísticas y portal público.
+
+## 12–14. Estadísticas, rankings y analíticas premium
+
+Estadísticas de equipo y jugador, tabla oficial, rankings por rol/métrica, ranking de rendimiento de equipos (0–100, fórmula versionada) y analíticas premium para equipo, jugador y organizador. Detalle en requisitos FR-13…FR-17.
+
+## 15–16. Portal público y notificaciones
+
+Cada competición puede publicar portada, reglamento, equipos, calendario, resultados, tabla, bracket, rankings y perfiles públicos. El MVP notifica por **web y correo**; WhatsApp y push quedan como ampliaciones.
+
+## 17–18. Requisitos funcionales y no funcionales
+
+Lista canónica en [mvp-requirements.md](/product/mvp-requirements.md) (`FR-01`…`FR-17` y NFR).
+
+## 19. Modelo de datos conceptual
+
+Incluye, entre otros: organizaciones, membresías, usuarios, ediciones, competiciones, etapas, reglas, jornadas, equipos, plantillas, enfrentamientos, partidos oficiales, solicitudes de reprogramación, conexiones EA, jobs de sync, observaciones raw, partidos EA normalizados, candidatos, selecciones oficiales, disputas, sanciones, stats, rankings, analytics, salud del proveedor y auditoría. Lista completa en [mvp-requirements.md](/product/mvp-requirements.md#modelo-de-datos-conceptual).
+
+## 20. Alcance del MVP
+
+### Incluido
+
+Aplicación web responsive; auth y perfiles; organizaciones y permisos; competiciones FC Clubs; ediciones configurables; formatos MVP; equipos y plantillas; fixtures y Match Center; 1–2 partidos oficiales; resultados individuales/agregados; reprogramación; vinculación y sync EA; selección/confirmación; disputas básicas; tabla/bracket/stats/rankings esenciales; portal público; auditoría; primera capa de analíticas premium.
+
+### Fuera del MVP
+
+App nativa; FC Temporadas/Amistosos; marketplace; fantasy; streaming; white-label completo; doble eliminación y suizo; automatización de pagos/premios; predicciones con IA; OCR de capturas como fuente primaria de resultados; WhatsApp/Telegram como canal operativo del MVP.
+
+## 21–23. Métricas, riesgos y roadmap
+
+Ver [open-decisions.md](/product/open-decisions.md) y [mvp-requirements.md](/product/mvp-requirements.md). Fases: Fundamentos → Operación → EA Data Layer → Resultados oficiales → Estadísticas/premium → Expansión.
+
+## 24. Decisiones pendientes
+
+Catalogadas con defaults en [open-decisions.md](/product/open-decisions.md).

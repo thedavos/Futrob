@@ -1,0 +1,35 @@
+---
+description: TanStack Start on Cloudflare Workers routing, server boundaries, and data loading
+globs: "apps/web/**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# TanStack Start (Cloudflare Workers)
+
+`apps/web` is the only web deployable, hosted on Cloudflare Workers via `@cloudflare/vite-plugin` and Wrangler.
+
+## Routes and data
+
+- Route files coordinate URL parsing, loaders, pending/error states, metadata, and feature composition. They do not contain competitive rules or persistence queries.
+- Prefer SSR loaders and server functions for initial authorized data.
+- Validate all route params, search params, form data, and HTTP bodies at the inbound boundary.
+- Keep filters, selected encounter, tab, and shareable view state in typed URLs when users expect deep links.
+- Permission-specific data is selected on the server. Hiding controls is presentation only.
+- Freshness aids trigger an authorized refetch; never merge untrusted broadcasts into canonical state.
+
+## Server entrypoints
+
+- Server functions, `/api/v1/*`, queue consumers, and cron handlers call shared application use cases.
+- Auth routes delegate to the Better Auth adapter.
+- Server-only modules, secrets, D1/R2 clients, and provider SDKs must not enter client bundles.
+- Read Worker bindings from `env` / composition — do not assume Node `process.env` at module scope on Workers.
+- Durable EA sync work is persisted and queued before the request returns.
+- Map expected failures to typed safe responses with `code`, `messageKey`, and `requestId`.
+
+## Rendering and UX
+
+- Preserve loading, empty, stale, permission, and recoverable-error states across SSR and hydration.
+- Avoid client-only rendering for public landing/portal content that benefits from SEO.
+- Encounter detail uses deep links appropriate to desktop/mobile patterns adopted in the scaffold.
+
+Build, preview, and deploy through Wrangler-compatible root scripts once scaffolded.

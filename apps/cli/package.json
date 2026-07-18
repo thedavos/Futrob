@@ -1,0 +1,22 @@
+{
+  "name": "@futrob/cli",
+  "version": "0.1.0",
+  "private": true,
+  "bin": {
+    "futrob": "./src/main.ts"
+  },
+  "type": "module",
+  "scripts": {
+    "cli": "tsx src/main.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@futrob/shared-kernel": "0.1.0",
+    "@futrob/test-support": "0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "25.0.3",
+    "tsx": "4.21.0",
+    "typescript": "6.0.2"
+  }
+}

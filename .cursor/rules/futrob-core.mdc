@@ -1,0 +1,36 @@
+---
+description: Futrob product scope, Cloudflare stack, module vocabulary, MVP invariants
+alwaysApply: true
+---
+
+# Futrob core
+
+Multi-tenant EA SPORTS FC competitions (MVP: FC Clubs) with hexagonal feature modules and Cloudflare Workers.
+
+## Stack
+
+- TanStack Start + React in `apps/web`
+- Cloudflare Workers, D1, R2, Queues, Cron Triggers
+- Better Auth (identity) + Futrob organizations (authorization)
+- Hexagonal modules under `src/modules/*`; DI only in `src/di/`
+- shadcn/Base UI, Tailwind, Vite+, Sentry at boundaries
+- game-data providers: EA Clubs adapter today; manual/others later
+
+## Vocabulary
+
+Keep distinct: Encounter, OfficialMatchSlot, ProviderMatch, ExternalClub, OfficialMatchSelection, OfficialResult, Series (resolution), Standing, RankingSnapshot.
+
+Do not use `EaMatch` / `ea-data` as domain names — use ProviderMatch / game-data (EA only in adapters).
+
+## Non-negotiable
+
+- scheduling ≠ game-data ≠ results ≠ statistics ≠ analytics
+- Sync never auto-officializes
+- `UNIQUE(provider_key, external_id)` for external refs
+- Only approved official results update standings/rankings/public portal
+- Organization-scoped D1 access; no Postgres RLS
+- No Supabase/Vercel as Must platform
+
+## Sources
+
+`product/prd.md`, requirements, glossary, `docs/architecture/*`, ADRs. User request wins on conflict.

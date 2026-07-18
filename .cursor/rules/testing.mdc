@@ -1,0 +1,26 @@
+---
+description: Vitest strategy for Futrob hexagonal modules on Cloudflare
+globs: "apps/web/**/*.{test,spec}.{ts,tsx}"
+alwaysApply: true
+---
+
+# Testing
+
+Use Vitest through Vite+: `import { … } from "vite-plus/test"` (never `vitest` directly). Run with `vp test` / `npm test`.
+
+Colocate domain/application tests next to use cases. Prefer fake ports over mocking D1 adapters.
+
+## Pyramid
+
+1. Domain + pure policies (no I/O)
+2. Application use cases with fake ports (`GameDataProviderPort`, `EncounterReaderPort`, …)
+3. Adapter tests: D1 mappings, EA fixtures sanitized, Queue idempotency
+4. Integration: two-organization isolation
+5. E2E when Start/Workers are wired
+
+## Required
+
+- Replays of sync/confirm/outbox do not duplicate effects
+- Only approved official results change statistics/public projections
+- `UNIQUE(provider_key, external_id)` enforced
+- Domain/application never import React, Better Auth, Wrangler bindings, or Sentry

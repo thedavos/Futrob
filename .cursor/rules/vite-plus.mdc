@@ -1,0 +1,39 @@
+---
+description: Canonical Vite+ commands and repository quality workflow
+alwaysApply: true
+---
+
+# Vite+ tooling
+
+Use root scripts backed by Vite+ (`vp` global CLI + local `vite-plus`). Do not use `npx vp`. Do not bypass with a globally installed oxlint/oxfmt/vitest outside Vite+.
+
+| Task | Command |
+|---|---|
+| Install locked dependencies | `vp install` (or `npm ci`) |
+| Start web development | `npm run dev` → `vp dev apps/web` |
+| Format | `npm run format` → `vp fmt` |
+| Lint | `npm run lint` → `vp lint` |
+| Format, lint, and type-check | `npm run check` → `vp check` |
+| Run Vitest once | `npm test` → `vp test` |
+| Run coverage | `npm run test:coverage` |
+| Build `apps/web` | `npm run build` → `vp build apps/web` |
+| Preview build | `npm run preview` → `vp preview apps/web` |
+| Workspace typecheck | `npm run typecheck` → `vp run -r typecheck` |
+| CLI playground | `npm run cli -- <cmd>` |
+| Diagnose Vite+ syntax | `vp help` or `vp <command> --help` |
+
+## Layout
+
+- Root `vite.config.ts`: fmt, lint, staged, shared test includes, monorepo `overrides`.
+- `apps/web/vite.config.ts`: app resolve aliases + Vitest project; later TanStack Start + Cloudflare plugin.
+- `apps/cli`: **no** `vite-plus` dependency — covered by root fmt/lint only; runtime is `tsx`.
+
+## Change discipline
+
+- Pin `vite-plus` and keep root `overrides.vite` → `@voidzero-dev/vite-plus-core` in lockstep.
+- Commit `package-lock.json`.
+- Prefer `vp add` / `vp install` for dependency changes.
+- Import tests from `vite-plus/test`, never directly from `vitest`.
+- Discover unfamiliar flags with local `vp … --help`; do not guess.
+- Do not add a second formatter, linter, test runner, or independent app build pipeline without an ADR.
+- Do not reintroduce a Vercel-only build pipeline as the Must path.

@@ -1,0 +1,11 @@
+/*
+ * Design tokens placeholder.
+ * Wire CSS variables from product/design-system-spec when UI work starts.
+ */
+
+:root {
+  --futrob-color-background: #0b0f14;
+  --futrob-color-foreground: #f4f7fb;
+  --futrob-color-accent: #3d9cf0;
+  --futrob-font-sans: "Segoe UI", system-ui, sans-serif;
+}

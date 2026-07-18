@@ -1,0 +1,52 @@
+---
+description: Hexagonal feature modules, DI composition, and Cloudflare platform rules for Futrob
+globs: "apps/web/**/*.{ts,tsx}"
+alwaysApply: true
+---
+
+# Futrob architecture
+
+Canonical sources: `docs/architecture/overview.md`, `module-boundaries.md`, `dependency-graph.md`, ADRs, and `.cursor/skills/futrob-hexagonal-module/SKILL.md`.
+
+## Shape
+
+- Single deployable: `apps/web` on Cloudflare Workers.
+- Feature modules: `apps/web/src/modules/<context>/` with `domain` / `application` / `adapters` / `server` / `presentation` / `index.ts`.
+- Composition **only** in `apps/web/src/di/` (with `bootstrap/`, `config/`, `context/` alongside).
+- Shared kernel: `apps/web/src/shared/{domain,application,infrastructure,contracts,presentation}`.
+- Queue/Cron thin handlers: `apps/web/src/workers/`.
+- Do not nest composition under `src/app/` — that folder is removed.
+
+MVP modules: `identity`, `organizations`, `competitions`, `teams`, `scheduling`, `game-data`, `results`, `statistics`, `analytics`, `notifications`, `public-portal`.
+
+## Dependency direction
+
+```text
+routes / UI → module/server → application → domain + ports → adapters → D1/R2/Queues/HTTP
+```
+
+- Domain: no React, Zod, D1, fetch, Wrangler env, Sentry.
+- Application: no concrete adapters.
+- `index.ts`: no adapters, schemas, mappers, HTTP clients.
+- Cross-module: public API, bridges on ports, or outbox events — never foreign adapters/tables.
+
+## Separation
+
+```text
+scheduling → when / how many
+game-data  → provider observations (EA is an adapter)
+results    → official selection / confirmation / disputes
+statistics → standings / rankings from approved results only
+analytics  → premium interpretation
+```
+
+## Cloudflare
+
+- Persistence: D1. Blobs: R2. Jobs: Queues + Cron.
+- Tenancy: application-scoped `organizationId` in adapters (no Postgres RLS).
+- Better Auth for sessions; Futrob organizations for authorization.
+
+## Imports and doc links
+
+- TypeScript: always import via `@/` (maps to `apps/web/src/*`). Do not use `../` or `../../` parent-relative imports.
+- Markdown in `docs/` and `product/`: link with repo-root absolute paths (`/docs/...`, `/product/...`), not `../`.
