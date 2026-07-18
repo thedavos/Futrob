@@ -73,6 +73,57 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   --font-sans: var(--font-ui);
-  --font-heading: var(--font-display);
-  --font-mono: var(--font-data);
+}
+
+/* Type roles — Manrope hierarchy (hero → title → body → label → score) */
+@utility type-hero {
+  font-size: var(--type-hero-size);
+  font-weight: var(--type-hero-weight);
+  line-height: var(--type-hero-leading);
+  letter-spacing: var(--type-hero-tracking);
+  text-wrap: balance;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-6xl);
+  }
+
+  @media (width >= 64rem) {
+    font-size: var(--text-7xl);
+  }
+}
+
+@utility type-title {
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  line-height: var(--type-title-leading);
+  letter-spacing: var(--type-title-tracking);
+  text-wrap: balance;
+}
+
+@utility type-label {
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  text-transform: uppercase;
+}
+
+@utility type-body {
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
+  letter-spacing: var(--type-body-tracking);
+  text-wrap: pretty;
+}
+
+@utility type-score {
+  font-size: var(--type-score-size);
+  font-weight: var(--type-score-weight);
+  line-height: var(--type-score-leading);
+  letter-spacing: var(--type-score-tracking);
+  font-variant-numeric: tabular-nums;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-5xl);
+  }
 }

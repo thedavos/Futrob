@@ -40,15 +40,17 @@ La idea memorable es **“del partido EA al resultado oficial”**. El énfasis 
 
 ## 3. Tipografía
 
-Familias autohospedadas WOFF2 (propuesta):
+Familia única autohospedada WOFF2: **Manrope** (variable 400–700). La jerarquía es por rol, no por familia.
 
-| Rol     | Familia                  | Uso                                              |
-| ------- | ------------------------ | ------------------------------------------------ |
-| Display | Barlow Condensed 600/700 | Hero, títulos de competición, marcadores grandes |
-| UI      | Manrope 400–700          | Interfaz general                                 |
-| Data    | IBM Plex Mono 500/600    | Marcadores, IDs cortos, timestamps densos        |
+| Rol   | Clase Tailwind | Uso                                              |
+| ----- | -------------- | ------------------------------------------------ |
+| Hero  | `type-hero`    | Headline de landing / superficies de marca       |
+| Title | `type-title`   | Títulos de página, competición, paneles          |
+| Body  | `type-body`    | Párrafos y copy de apoyo                         |
+| Label | `type-label`   | Labels uppercase densos, estados, metadata corta |
+| Score | `type-score`   | Marcadores y valores numéricos que cambian       |
 
-Números de marcador y columnas numéricas: `font-variant-numeric: tabular-nums`.
+Tokens de rol en [`packages/ui/src/tokens.css`](/packages/ui/src/tokens.css); utilidades en [`apps/web/src/styles.css`](/apps/web/src/styles.css) (`@utility`). Marcadores usan `font-variant-numeric: tabular-nums` vía `type-score`.
 
 ## 4. Color y tokens
 

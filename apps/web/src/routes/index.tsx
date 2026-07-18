@@ -11,24 +11,20 @@ function HomePage() {
       <header className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
         <div className="flex items-center gap-3">
           <Logo className="h-9 w-auto" />
-          <span className="font-heading text-2xl font-bold tracking-wide">Futrob</span>
+          <span className="type-title tracking-wide">Futrob</span>
         </div>
-        <span className="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
-          Competition OS
-        </span>
+        <span className="type-label text-muted-foreground">Competition OS</span>
       </header>
 
       <section className="mx-auto grid min-h-[calc(100vh-5rem)] max-w-7xl items-center gap-16 px-5 py-16 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:py-24">
         <div className="max-w-xl">
-          <p className="mb-5 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-            Del partido EA al resultado oficial
-          </p>
-          <h1 className="font-heading text-5xl font-bold leading-[0.96] sm:text-6xl lg:text-7xl">
+          <p className="type-label mb-5 text-primary">Del partido EA al resultado oficial</p>
+          <h1 className="type-hero">
             Tu competición,
             <br />
             bajo control.
           </h1>
-          <p className="mt-6 max-w-[60ch] text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p className="type-body mt-6 max-w-[60ch] text-muted-foreground sm:text-lg">
             Opera ligas y copas de FC Clubs con datos reales, resultados auditables y una
             experiencia clara para organizadores, capitanes y espectadores.
           </p>
@@ -54,12 +50,10 @@ function HomePage() {
         >
           <div className="flex items-center justify-between border-b border-border px-5 py-4 sm:px-6">
             <div>
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                Jornada 08 · Partido oficial
-              </p>
-              <h2 className="mt-1 font-heading text-2xl">Match Center</h2>
+              <p className="type-label text-muted-foreground">Jornada 08 · Partido oficial</p>
+              <h2 className="type-title mt-1">Match Center</h2>
             </div>
-            <span className="rounded-full bg-accent px-3 py-1 font-mono text-xs font-semibold text-accent-foreground">
+            <span className="type-label rounded-full bg-accent px-3 py-1 text-accent-foreground">
               Aprobado
             </span>
           </div>
@@ -69,7 +63,7 @@ function HomePage() {
               <span className="block text-sm text-muted-foreground">Local</span>
               <strong className="mt-1 block text-base sm:text-lg">Barrio FC</strong>
             </div>
-            <div className="font-mono text-center text-4xl font-semibold tabular-nums sm:text-5xl">
+            <div className="type-score text-center">
               3<span className="px-2 text-muted-foreground">:</span>1
             </div>
             <div className="text-end">
@@ -84,7 +78,7 @@ function HomePage() {
                 <span className="font-semibold">2 partidos EA</span>
                 <span className="text-muted-foreground"> seleccionados y confirmados</span>
               </p>
-              <span className="font-mono text-xs text-muted-foreground">EA SYNC · 00:42</span>
+              <span className="type-label text-muted-foreground">EA SYNC · 00:42</span>
             </div>
           </div>
         </div>

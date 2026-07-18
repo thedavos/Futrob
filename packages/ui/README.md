@@ -2,7 +2,7 @@
 
 Tokens y primitivas shadcn/Base UI. Sin conocimiento de competiciones, EA ni permisos.
 
-- `styles.css`: fuentes autohospedadas, reset y estilos globales.
+- `styles.css`: Manrope autohospedada (WOFF2), reset y estilos globales.
 - `tokens.css`: paleta OKLCH Pitch Ops, tokens semánticos light/dark, tipo, espacio y movimiento.
 - `components/`: primitivas shadcn (`base-nova` sobre Base UI).
 - `Logo`: mark accesible con variante de marca o `monochrome`.
