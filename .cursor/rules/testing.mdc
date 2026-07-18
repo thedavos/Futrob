@@ -6,7 +6,7 @@ alwaysApply: true
 
 # Testing
 
-Use Vitest through Vite+: `import { … } from "vite-plus/test"` (never `vitest` directly). Run with `vp test` / `npm test`.
+Use Vitest through Vite+: `import { … } from "vite-plus/test"` (never `vitest` directly). Run with `vp test` / `npm test`. Coverage gate: `npm run test:coverage` (min **80%** lines/functions/branches/statements on domain + application + registry adapters; see `apps/web/vite.config.ts`).
 
 Colocate domain/application tests next to use cases. Prefer fake ports over mocking D1 adapters.
 
