@@ -17,11 +17,13 @@
     "lint": "vp lint",
     "check": "vp check",
     "test": "vp test",
-    "test:coverage": "vp test --coverage",
+    "test:coverage": "vp test run --coverage",
     "typecheck": "vp run -r typecheck",
     "cli": "npm run cli -w @futrob/cli --"
   },
   "devDependencies": {
+    "@tanstack/devtools-vite": "^0.8.1",
+    "@vitest/coverage-v8": "^4.1.10",
     "typescript": "6.0.2",
     "vite-plus": "0.2.4"
   },

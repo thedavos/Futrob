@@ -1,6 +1,10 @@
 /**
  * Public UI exports.
- * Add shadcn/Base UI primitives here (Button, Dialog, …) — no business components.
+ * Primitives live under `src/components` (shadcn / Base UI). Compose business UI in apps/web.
  */
 
-export {};
+export { Logo } from "./logo.js";
+export type { LogoProps } from "./logo.js";
+
+export { Button, buttonVariants } from "./components/button.js";
+export { cn } from "./lib/utils.js";

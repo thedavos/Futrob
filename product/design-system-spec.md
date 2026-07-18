@@ -57,6 +57,8 @@ Números de marcador y columnas numéricas: `font-variant-numeric: tabular-nums`
 - Dark es la presentación deportiva principal; light permanece completo.
 - Objetivo WCAG 2.2 AA.
 - Separación default: borde 1 px; sombra solo en capas modal/popover.
+- Paleta canónica **Pitch Ops** en OKLCH: escala verde `--brand-50` a `--brand-950`, neutros con tinte de campo y escalas semánticas red/amber/blue.
+- Implementación: [`packages/ui/src/tokens.css`](/packages/ui/src/tokens.css). Uso de logo y activos: [`docs/brand/README.md`](/docs/brand/README.md).
 
 Estados de selección/sync deben mapear a tokens semánticos distintos de “oficial/aprobado”.
 

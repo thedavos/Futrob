@@ -32,7 +32,7 @@ analytics    → premium interpretation
 | Runtime       | Cloudflare Workers                   |
 | Data          | D1 + R2 + Queues + Cron              |
 | Auth          | Better Auth + Futrob organizations   |
-| UI            | shadcn / Base UI (to be wired)       |
+| UI            | shadcn / Base UI (`@futrob/ui`)      |
 | Observability | Sentry at boundaries                 |
 
 ## Layout
