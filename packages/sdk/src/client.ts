@@ -1,6 +1,7 @@
 import { HttpClient, type HttpClientOptions } from "./http.ts";
 import { createCompetitionsResource } from "./resources/competitions.ts";
 import { createEncountersResource } from "./resources/encounters.ts";
+import { createGameDataResource } from "./resources/game-data.ts";
 import { createMetaResource } from "./resources/meta.ts";
 import { createOrganizationsResource } from "./resources/organizations.ts";
 import { createResultsResource } from "./resources/results.ts";
@@ -13,6 +14,7 @@ export function createFutrobClient(options: CreateFutrobClientOptions) {
 
   return {
     meta: createMetaResource(http),
+    gameData: createGameDataResource(http),
     organizations: createOrganizationsResource(http),
     competitions: createCompetitionsResource(http),
     teams: createTeamsResource(http),
