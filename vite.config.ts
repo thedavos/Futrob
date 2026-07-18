@@ -12,7 +12,7 @@ export default defineConfig({
   fmt: {
     singleQuote: false,
     semi: true,
-    ignorePatterns: ["**/routeTree.gen.ts"],
+    ignorePatterns: ["**/routeTree.gen.ts", "packages/sdk_dart/**", "**/openapi/*.yaml"],
   },
   lint: {
     jsPlugins: [
@@ -26,7 +26,11 @@ export default defineConfig({
       typeAware: true,
       typeCheck: true,
     },
-    ignorePatterns: ["**/routeTree.gen.ts"],
+    ignorePatterns: [
+      "**/routeTree.gen.ts",
+      "packages/sdk_dart/**",
+      "packages/api-contracts/scripts/**",
+    ],
     rules: {
       "vite-plus/prefer-vite-plus-imports": "error",
       "no-console": ["error", { allow: ["warn", "error"] }],
@@ -50,6 +54,16 @@ export default defineConfig({
         },
       },
       {
+        // OpenAPI generator is a Node CLI script — console output is intentional.
+        files: ["packages/api-contracts/scripts/**"],
+        env: {
+          node: true,
+        },
+        rules: {
+          "no-console": "off",
+        },
+      },
+      {
         files: ["**/*.{test,spec}.{ts,tsx}"],
         plugins: ["typescript", "vitest"],
         rules: {
@@ -61,6 +75,6 @@ export default defineConfig({
   },
   test: {
     // Per-workspace Vite configs own aliases (e.g. apps/web `@/` → src).
-    projects: ["apps/web"],
+    projects: ["apps/web", "packages/sdk"],
   },
 });
