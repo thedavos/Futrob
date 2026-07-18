@@ -19,10 +19,13 @@
     "test": "vp test",
     "test:coverage": "vp test run --coverage",
     "typecheck": "vp run -r typecheck",
+    "generate:openapi": "npm run generate:openapi -w @futrob/api-contracts",
     "cli": "npm run cli -w @futrob/cli --"
   },
   "devDependencies": {
+    "@futrob/api-contracts": "^0.1.0",
     "@tanstack/devtools-vite": "^0.8.1",
+    "@types/node": "^26.1.1",
     "@vitest/coverage-v8": "^4.1.10",
     "typescript": "6.0.2",
     "vite-plus": "0.2.4"
