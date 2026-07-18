@@ -8,3 +8,5 @@ export type { ProviderMatchRepository } from "@/modules/game-data/domain/ports/p
 
 export { ListMatchesBetweenClubsUseCase } from "@/modules/game-data/application/list-matches-between-clubs/list-matches-between-clubs.use-case.ts";
 export { SearchExternalClubsUseCase } from "@/modules/game-data/application/search-external-clubs/search-external-clubs.use-case.ts";
+export { GetExternalClubUseCase } from "@/modules/game-data/application/get-external-club/get-external-club.use-case.ts";
+export { GetRecentProviderMatchesUseCase } from "@/modules/game-data/application/get-recent-provider-matches/get-recent-provider-matches.use-case.ts";

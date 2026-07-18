@@ -1,4 +1,9 @@
-import { ListMatchesBetweenClubsUseCase, SearchExternalClubsUseCase } from "@/modules/game-data";
+import {
+  GetExternalClubUseCase,
+  GetRecentProviderMatchesUseCase,
+  ListMatchesBetweenClubsUseCase,
+  SearchExternalClubsUseCase,
+} from "@/modules/game-data";
 import {
   EaClubsGameDataAdapter,
   InMemoryGameDataProviderRegistry,
@@ -28,6 +33,8 @@ export function createGameDataModule(deps: GameDataModuleDependencies) {
 
   return {
     searchExternalClubs: new SearchExternalClubsUseCase(registry),
+    getExternalClub: new GetExternalClubUseCase(registry),
+    getRecentProviderMatches: new GetRecentProviderMatchesUseCase(registry),
     listMatchesBetweenClubs: new ListMatchesBetweenClubsUseCase(deps.providerMatches),
     registry,
   };
